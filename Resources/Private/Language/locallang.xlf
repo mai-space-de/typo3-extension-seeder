@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2026-07-09T00:00:00Z" product-name="mai_seeder">
+		<header/>
+		<body>
+			<trans-unit id="module.title">
+				<source>Content Migrations</source>
+			</trans-unit>
+			<trans-unit id="module.empty">
+				<source>No migrations found in any active extension's Classes/Migrations/ directory.</source>
+			</trans-unit>
+			<trans-unit id="table.identifier">
+				<source>Identifier</source>
+			</trans-unit>
+			<trans-unit id="table.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="table.status">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="table.batch">
+				<source>Batch</source>
+			</trans-unit>
+			<trans-unit id="table.executedAt">
+				<source>Executed at</source>
+			</trans-unit>
+			<trans-unit id="table.actions">
+				<source>Actions</source>
+			</trans-unit>
+			<trans-unit id="status.pending">
+				<source>Pending</source>
+			</trans-unit>
+			<trans-unit id="status.executed">
+				<source>Executed</source>
+			</trans-unit>
+			<trans-unit id="status.failed">
+				<source>Failed</source>
+			</trans-unit>
+			<trans-unit id="action.execute">
+				<source>Execute</source>
+			</trans-unit>
+			<trans-unit id="action.rollback">
+				<source>Roll back</source>
+			</trans-unit>
+			<trans-unit id="action.execute.confirm">
+				<source>Run this migration now? This writes to the database.</source>
+			</trans-unit>
+			<trans-unit id="action.rollback.confirm">
+				<source>Roll back this migration now? This undoes its tracked changes.</source>
+			</trans-unit>
+			<trans-unit id="notice.irreversible">
+				<source>Not reversible</source>
+			</trans-unit>
+			<trans-unit id="flash.executed.title">
+				<source>Migration executed</source>
+			</trans-unit>
+			<trans-unit id="flash.executeFailed.title">
+				<source>Migration failed</source>
+			</trans-unit>
+			<trans-unit id="flash.rolledBack.title">
+				<source>Migration rolled back</source>
+			</trans-unit>
+			<trans-unit id="flash.rollbackFailed.title">
+				<source>Rollback failed</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

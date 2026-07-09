@@ -1,0 +1,37 @@
+{
+	"name": "maispace/mai-seeder",
+	"type": "typo3-cms-extension",
+	"description": "Laravel-inspired, versioned content migrations for TYPO3 - seed and clean up records and their relations across environments.",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=8.2",
+		"typo3/cms-core": "^13.4 || ^14.0",
+		"typo3/cms-backend": "^13.4 || ^14.0"
+	},
+	"require-dev": {
+		"typo3/testing-framework": "^8.0 || ^9.0",
+		"typo3/coding-standards": "^0.8"
+	},
+	"autoload": {
+		"psr-4": {
+			"Maispace\\MaiSeeder\\": "Classes/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Maispace\\MaiSeeder\\Tests\\": "Tests/"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "mai_seeder"
+		}
+	},
+	"config": {
+		"sort-packages": true,
+		"allow-plugins": {
+			"typo3/class-alias-loader": true,
+			"typo3/cms-composer-installers": true
+		}
+	}
+}

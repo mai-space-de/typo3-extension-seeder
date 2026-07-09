@@ -1,0 +1,16 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Maispace\MaiSeeder\:
+    resource: '../Classes/*'
+    exclude:
+      - '../Classes/Migration/Exception/*'
+      - '../Classes/Migration/ValueObject/*'
+      - '../Classes/Migration/LedgerAction.php'
+      - '../Classes/Migrations/*'
+
+  Maispace\MaiSeeder\Controller\Backend\MigrationModuleController:
+    tags: ['backend.controller']
