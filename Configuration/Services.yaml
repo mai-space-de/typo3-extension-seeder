@@ -13,4 +13,4 @@ services:
       - '../Classes/Migrations/*'
 
   Maispace\MaiSeeder\Controller\Backend\MigrationModuleController:
-    tags: ['backend.controller']
+    public: true

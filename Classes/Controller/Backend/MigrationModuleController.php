@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Maispace\MaiSeeder\Controller\Backend;
 
+use Maispace\MaiBase\Controller\Backend\AbstractBackendController;
 use Maispace\MaiSeeder\Migration\MigrationRunner;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Attribute\AsController;
-use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Core\Http\AllowedMethodsTrait;
-use TYPO3\CMS\Core\Http\RedirectResponse;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Core\Messaging\FlashMessageService;
-use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Admin-only backend module listing every discovered migration and its
@@ -22,87 +18,85 @@ use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
  * MigrationRunner, the same service the CLI commands talk to.
  */
 #[AsController]
-final class MigrationModuleController
+final class MigrationModuleController extends AbstractBackendController
 {
-    use AllowedMethodsTrait;
-
-    private const ROUTE = 'mai_seeder_migrations';
-    private const LANGUAGE_FILE = 'LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:';
+    private const string EXTENSION_NAME = 'MaiSeeder';
 
     public function __construct(
-        private readonly ModuleTemplateFactory $moduleTemplateFactory,
+        ModuleTemplateFactory $moduleTemplateFactory,
+        IconFactory $iconFactory,
         private readonly MigrationRunner $runner,
-        private readonly UriBuilder $uriBuilder,
-        private readonly FlashMessageService $flashMessageService,
     ) {
+        parent::__construct($moduleTemplateFactory, $iconFactory);
     }
 
-    public function indexAction(ServerRequestInterface $request): ResponseInterface
+    public function indexAction(): ResponseInterface
     {
-        $this->assertAllowedHttpMethod($request, 'GET');
+        $moduleTemplate = $this->createModuleTemplate();
+        $this->addShortcutButton(
+            $moduleTemplate,
+            'mai_seeder',
+            $this->translate('module.title') ?? 'Content Migrations',
+        );
+        $this->assignMultiple($moduleTemplate, [
+            'statuses' => $this->runner->status(),
+        ]);
 
-        $moduleTemplate = $this->moduleTemplateFactory->create($request);
-        $moduleTemplate->assign('statuses', $this->runner->status());
-
-        return $moduleTemplate->renderResponse('Migration/Index');
+        return $this->renderModuleResponse($moduleTemplate, 'Index');
     }
 
-    public function executeAction(ServerRequestInterface $request): ResponseInterface
+    public function executeAction(string $identifier = ''): ResponseInterface
     {
-        $this->assertAllowedHttpMethod($request, 'POST');
-        $identifier = (string)($request->getParsedBody()['identifier'] ?? '');
-
         try {
             $result = $this->runner->migrateOne($identifier);
-            $this->addFlashMessage(
-                $result->success,
-                $result->success ? 'flash.executed.title' : 'flash.executeFailed.title',
-                $result->success ? $result->identifier : (string)$result->errorMessage,
-            );
+            if ($result->success) {
+                $this->flashSuccess(
+                    $result->identifier,
+                    $this->translate('flash.executed.title') ?? 'Migration executed',
+                );
+            } else {
+                $this->flashError(
+                    (string)$result->errorMessage,
+                    $this->translate('flash.executeFailed.title') ?? 'Migration failed',
+                );
+            }
         } catch (\Throwable $e) {
-            $this->addFlashMessage(false, 'flash.executeFailed.title', $e->getMessage());
+            $this->flashError(
+                $e->getMessage(),
+                $this->translate('flash.executeFailed.title') ?? 'Migration failed',
+            );
         }
 
-        return $this->redirectToIndex();
+        return $this->redirect('index');
     }
 
-    public function rollbackAction(ServerRequestInterface $request): ResponseInterface
+    public function rollbackAction(string $identifier = ''): ResponseInterface
     {
-        $this->assertAllowedHttpMethod($request, 'POST');
-        $identifier = (string)($request->getParsedBody()['identifier'] ?? '');
-
         try {
             $result = $this->runner->rollbackOne($identifier);
-            $this->addFlashMessage(
-                $result->success,
-                $result->success ? 'flash.rolledBack.title' : 'flash.rollbackFailed.title',
-                $result->success ? $result->identifier : (string)$result->errorMessage,
-            );
+            if ($result->success) {
+                $this->flashSuccess(
+                    $result->identifier,
+                    $this->translate('flash.rolledBack.title') ?? 'Migration rolled back',
+                );
+            } else {
+                $this->flashError(
+                    (string)$result->errorMessage,
+                    $this->translate('flash.rollbackFailed.title') ?? 'Rollback failed',
+                );
+            }
         } catch (\Throwable $e) {
-            $this->addFlashMessage(false, 'flash.rollbackFailed.title', $e->getMessage());
+            $this->flashError(
+                $e->getMessage(),
+                $this->translate('flash.rollbackFailed.title') ?? 'Rollback failed',
+            );
         }
 
-        return $this->redirectToIndex();
+        return $this->redirect('index');
     }
 
-    private function redirectToIndex(): ResponseInterface
+    private function translate(string $key): ?string
     {
-        return new RedirectResponse($this->uriBuilder->buildUriFromRoute(self::ROUTE));
-    }
-
-    private function addFlashMessage(bool $success, string $titleKey, string $message): void
-    {
-        $flashMessage = new FlashMessage(
-            $message,
-            $this->translate($titleKey),
-            $success ? ContextualFeedbackSeverity::OK : ContextualFeedbackSeverity::ERROR,
-            true,
-        );
-        $this->flashMessageService->getMessageQueueByIdentifier()->addMessage($flashMessage);
-    }
-
-    private function translate(string $key): string
-    {
-        return $GLOBALS['LANG']->sL(self::LANGUAGE_FILE . $key) ?: $key;
+        return LocalizationUtility::translate($key, self::EXTENSION_NAME);
     }
 }

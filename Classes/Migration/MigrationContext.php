@@ -75,8 +75,30 @@ final class MigrationContext
             return $uid;
         }
 
-        $connection->insert($table, array_merge($lookup, $values));
-        $uid = $this->tableHasUidColumn($connection, $table) ? (int)$connection->lastInsertId() : null;
+        $row = array_merge($lookup, $values);
+        $connection->insert($table, $row);
+
+        // Prefer an explicitly provided uid (e.g. fixed page UIDs). lastInsertId()
+        // is unreliable / empty when the INSERT supplies the primary key itself.
+        $uid = null;
+        if ($this->tableHasUidColumn($connection, $table)) {
+            if (isset($row['uid'])) {
+                $uid = (int)$row['uid'];
+            } else {
+                try {
+                    $uid = (int)$connection->lastInsertId();
+                } catch (\Throwable $e) {
+                    // Fallback: some drivers leave insert_id=0 after INSERT…SELECT
+                    // quirks or when another statement on the same connection
+                    // intervened. Resolve via the lookup we just wrote.
+                    $uid = $this->extractUid($this->findOne($table, $lookup) ?? []);
+                    if ($uid === null) {
+                        throw $e;
+                    }
+                }
+            }
+        }
+
         $this->ledger->record($this->migrationIdentifier, $table, $lookup, $uid, LedgerAction::Insert, null);
 
         return $uid;

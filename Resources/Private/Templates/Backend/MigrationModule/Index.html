@@ -1,0 +1,105 @@
+<html
+	xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+	data-namespace-typo3-fluid="true"
+>
+
+<f:layout name="Module" />
+
+<f:section name="Content">
+	<div class="module-body">
+		<h1><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:module.title" /></h1>
+
+		<f:if condition="{statuses}">
+			<f:then>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:table.identifier" /></th>
+							<th><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:table.description" /></th>
+							<th><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:table.status" /></th>
+							<th><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:table.batch" /></th>
+							<th><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:table.executedAt" /></th>
+							<th><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:table.actions" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<f:for each="{statuses}" as="status">
+							<tr>
+								<td><code>{status.identifier}</code></td>
+								<td>
+									{status.description}
+									<f:if condition="!{status.reversible}">
+										<br />
+										<span class="text-muted">
+											<small><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:notice.irreversible" /></small>
+										</span>
+									</f:if>
+								</td>
+								<td>
+									<f:if condition="!{status.executed}">
+										<f:then>
+											<span class="badge text-bg-warning"><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:status.pending" /></span>
+										</f:then>
+										<f:else>
+											<f:if condition="!{status.success}">
+												<f:then>
+													<span class="badge text-bg-danger"><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:status.failed" /></span>
+												</f:then>
+												<f:else>
+													<span class="badge text-bg-success"><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:status.executed" /></span>
+												</f:else>
+											</f:if>
+										</f:else>
+									</f:if>
+								</td>
+								<td>{status.batch}</td>
+								<td>
+									<f:if condition="{status.executedAt}">
+										<f:format.date format="Y-m-d H:i:s">{status.executedAt}</f:format.date>
+									</f:if>
+								</td>
+								<td>
+									<f:if condition="!{status.executed}">
+										<f:form action="execute" method="post" class="d-inline">
+											<f:form.hidden name="identifier" value="{status.identifier}" />
+											<button
+												type="submit"
+												class="btn btn-sm btn-primary t3js-modal-trigger"
+												data-severity="warning"
+												data-title="{f:translate(key: 'LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:action.execute')}"
+												data-content="{f:translate(key: 'LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:action.execute.confirm')}"
+												data-button-close-text="{f:translate(key: 'LLL:core/Resources/Private/Language/locallang_core.xlf:buttons.cancel')}"
+												data-button-ok-text="{f:translate(key: 'LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:action.execute')}"
+											><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:action.execute" /></button>
+										</f:form>
+									</f:if>
+									<f:if condition="{status.executed} && {status.reversible}">
+										<f:form action="rollback" method="post" class="d-inline">
+											<f:form.hidden name="identifier" value="{status.identifier}" />
+											<button
+												type="submit"
+												class="btn btn-sm btn-default t3js-modal-trigger"
+												data-severity="warning"
+												data-title="{f:translate(key: 'LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:action.rollback')}"
+												data-content="{f:translate(key: 'LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:action.rollback.confirm')}"
+												data-button-close-text="{f:translate(key: 'LLL:core/Resources/Private/Language/locallang_core.xlf:buttons.cancel')}"
+												data-button-ok-text="{f:translate(key: 'LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:action.rollback')}"
+											><f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:action.rollback" /></button>
+										</f:form>
+									</f:if>
+								</td>
+							</tr>
+						</f:for>
+					</tbody>
+				</table>
+			</f:then>
+			<f:else>
+				<p class="text-muted">
+					<f:translate key="LLL:EXT:mai_seeder/Resources/Private/Language/locallang.xlf:module.empty" />
+				</p>
+			</f:else>
+		</f:if>
+	</div>
+</f:section>
+
+</html>
