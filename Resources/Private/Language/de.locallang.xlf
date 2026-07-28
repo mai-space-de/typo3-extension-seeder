@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages"
+          date="2025-01-01T00:00:00Z" product-name="mai_seeder">
+        <header/>
+        <body>
+            <trans-unit id="module.title">
+                <source>Content Migrations</source>
+                <target>Inhaltsmigrationen</target>
+            </trans-unit>
+            <trans-unit id="module.empty">
+                <source>No migrations found in any active extension's Classes/Migrations/ directory.</source>
+                <target>Keine Migrationen im Classes/Migrations/-Verzeichnis der aktiven Extensions gefunden.</target>
+            </trans-unit>
+            <trans-unit id="table.identifier">
+                <source>Identifier</source>
+                <target>Kennung</target>
+            </trans-unit>
+            <trans-unit id="table.description">
+                <source>Description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="table.status">
+                <source>Status</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="table.batch">
+                <source>Batch</source>
+                <target>Batch</target>
+            </trans-unit>
+            <trans-unit id="table.executedAt">
+                <source>Executed at</source>
+                <target>Ausgeführt am</target>
+            </trans-unit>
+            <trans-unit id="table.actions">
+                <source>Actions</source>
+                <target>Aktionen</target>
+            </trans-unit>
+            <trans-unit id="status.pending">
+                <source>Pending</source>
+                <target>Ausstehend</target>
+            </trans-unit>
+            <trans-unit id="status.executed">
+                <source>Executed</source>
+                <target>Ausgeführt</target>
+            </trans-unit>
+            <trans-unit id="status.failed">
+                <source>Failed</source>
+                <target>Fehlgeschlagen</target>
+            </trans-unit>
+            <trans-unit id="action.execute">
+                <source>Execute</source>
+                <target>Ausführen</target>
+            </trans-unit>
+            <trans-unit id="action.rollback">
+                <source>Roll back</source>
+                <target>Zurückrollen</target>
+            </trans-unit>
+            <trans-unit id="action.execute.confirm">
+                <source>Run this migration now? This writes to the database.</source>
+                <target>Diese Migration jetzt ausführen? Dabei werden Daten in die Datenbank geschrieben.</target>
+            </trans-unit>
+            <trans-unit id="action.rollback.confirm">
+                <source>Roll back this migration now? This undoes its tracked changes.</source>
+                <target>Diese Migration jetzt zurückrollen? Dadurch werden ihre erfassten Änderungen rückgängig gemacht.</target>
+            </trans-unit>
+            <trans-unit id="notice.irreversible">
+                <source>Not reversible</source>
+                <target>Nicht umkehrbar</target>
+            </trans-unit>
+            <trans-unit id="flash.executed.title">
+                <source>Migration executed</source>
+                <target>Migration ausgeführt</target>
+            </trans-unit>
+            <trans-unit id="flash.executeFailed.title">
+                <source>Migration failed</source>
+                <target>Migration fehlgeschlagen</target>
+            </trans-unit>
+            <trans-unit id="flash.rolledBack.title">
+                <source>Migration rolled back</source>
+                <target>Migration zurückgerollt</target>
+            </trans-unit>
+            <trans-unit id="flash.rollbackFailed.title">
+                <source>Rollback failed</source>
+                <target>Zurückrollen fehlgeschlagen</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
