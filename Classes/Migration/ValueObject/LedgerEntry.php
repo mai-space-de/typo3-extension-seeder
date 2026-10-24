@@ -25,6 +25,5 @@ final class LedgerEntry
         public readonly array $lookupCriteria,
         public readonly LedgerAction $action,
         public readonly ?array $snapshotBefore,
-    ) {
-    }
+    ) {}
 }

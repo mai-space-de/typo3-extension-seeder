@@ -16,9 +16,7 @@ final class MigrationLedger
 {
     private const TABLE = 'tx_maiseeder_migration_record';
 
-    public function __construct(private readonly ConnectionPool $connectionPool)
-    {
-    }
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
 
     /**
      * @param array<string, mixed> $lookupCriteria
@@ -87,20 +85,20 @@ final class MigrationLedger
     private function mapRowToEntry(array $row): LedgerEntry
     {
         return new LedgerEntry(
-            uid: (int)$row['uid'],
-            migrationIdentifier: (string)$row['migration_identifier'],
-            tableName: (string)$row['table_name'],
-            recordUid: $row['record_uid'] !== null ? (int)$row['record_uid'] : null,
-            lookupCriteria: json_decode((string)$row['lookup_criteria'], true, 512, JSON_THROW_ON_ERROR),
-            action: LedgerAction::from((string)$row['action']),
+            uid: (int) $row['uid'],
+            migrationIdentifier: (string) $row['migration_identifier'],
+            tableName: (string) $row['table_name'],
+            recordUid: $row['record_uid'] !== null ? (int) $row['record_uid'] : null,
+            lookupCriteria: json_decode((string) $row['lookup_criteria'], true, 512, JSON_THROW_ON_ERROR),
+            action: LedgerAction::from((string) $row['action']),
             snapshotBefore: $row['snapshot_before'] !== null
-                ? json_decode((string)$row['snapshot_before'], true, 512, JSON_THROW_ON_ERROR)
+                ? json_decode((string) $row['snapshot_before'], true, 512, JSON_THROW_ON_ERROR)
                 : null,
         );
     }
 
     private function now(): int
     {
-        return (int)($GLOBALS['EXEC_TIME'] ?? time());
+        return (int) ($GLOBALS['EXEC_TIME'] ?? time());
     }
 }

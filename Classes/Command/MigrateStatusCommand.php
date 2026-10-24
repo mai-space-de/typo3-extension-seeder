@@ -42,7 +42,7 @@ final class MigrateStatusCommand extends Command
                 $status->identifier,
                 $status->description,
                 $state,
-                $status->batch !== null ? (string)$status->batch : '-',
+                $status->batch !== null ? (string) $status->batch : '-',
                 $status->executedAt?->format('Y-m-d H:i:s') ?? '-',
                 $status->reversible ? 'yes' : 'no',
             ];

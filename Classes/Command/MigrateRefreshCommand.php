@@ -38,8 +38,8 @@ final class MigrateRefreshCommand extends Command
         }
 
         $outcome = $this->runner->refresh();
-        $failedRollbacks = array_filter($outcome['rolledBack'], static fn ($result) => !$result->success);
-        $failedMigrations = array_filter($outcome['migrated'], static fn ($result) => !$result->success);
+        $failedRollbacks = array_filter($outcome['rolledBack'], static fn($result) => !$result->success);
+        $failedMigrations = array_filter($outcome['migrated'], static fn($result) => !$result->success);
 
         $io->success(sprintf(
             '%d migration(s) rolled back, %d migration(s) re-applied.',

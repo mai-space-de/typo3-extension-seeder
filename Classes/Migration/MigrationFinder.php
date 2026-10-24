@@ -21,8 +21,7 @@ final class MigrationFinder
     public function __construct(
         private readonly PackageManager $packageManager,
         private readonly ExtensionNamespaceResolver $namespaceResolver,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, MigrationInterface> keyed and sorted by identifier

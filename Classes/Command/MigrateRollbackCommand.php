@@ -38,8 +38,8 @@ final class MigrateRollbackCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $step = $input->getOption('step') !== null ? (int)$input->getOption('step') : null;
-        $batch = $input->getOption('batch') !== null ? (int)$input->getOption('batch') : null;
+        $step = $input->getOption('step') !== null ? (int) $input->getOption('step') : null;
+        $batch = $input->getOption('batch') !== null ? (int) $input->getOption('batch') : null;
 
         $results = $this->runner->rollback($step, $batch);
 
@@ -60,7 +60,7 @@ final class MigrateRollbackCommand extends Command
                 ));
         }
 
-        $failed = array_filter($results, static fn ($result) => !$result->success);
+        $failed = array_filter($results, static fn($result) => !$result->success);
 
         return $failed === [] ? Command::SUCCESS : Command::FAILURE;
     }

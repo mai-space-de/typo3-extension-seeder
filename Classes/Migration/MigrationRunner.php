@@ -31,8 +31,7 @@ final class MigrationRunner
         private readonly MigrationRepository $repository,
         private readonly MigrationLedger $ledger,
         private readonly ConnectionPool $connectionPool,
-    ) {
-    }
+    ) {}
 
     /**
      * @return MigrationStatus[]
@@ -51,9 +50,9 @@ final class MigrationRunner
                 className: $migration::class,
                 reversible: $migration instanceof ReversibleMigrationInterface,
                 executed: $row !== null,
-                executedAt: $row !== null ? $this->toDateTime((int)$row['executed_at']) : null,
-                batch: $row !== null ? (int)$row['batch'] : null,
-                success: $row !== null ? (bool)$row['success'] : null,
+                executedAt: $row !== null ? $this->toDateTime((int) $row['executed_at']) : null,
+                batch: $row !== null ? (int) $row['batch'] : null,
+                success: $row !== null ? (bool) $row['success'] : null,
                 errorMessage: $row['error_message'] ?? null,
             );
         }
@@ -66,13 +65,13 @@ final class MigrationRunner
             }
             $statuses[] = new MigrationStatus(
                 identifier: $identifier,
-                description: (string)$row['description'],
-                className: (string)$row['migration_class'],
+                description: (string) $row['description'],
+                className: (string) $row['migration_class'],
                 reversible: false,
                 executed: true,
-                executedAt: $this->toDateTime((int)$row['executed_at']),
-                batch: (int)$row['batch'],
-                success: (bool)$row['success'],
+                executedAt: $this->toDateTime((int) $row['executed_at']),
+                batch: (int) $row['batch'],
+                success: (bool) $row['success'],
                 errorMessage: $row['error_message'] ?? null,
             );
         }
@@ -130,7 +129,7 @@ final class MigrationRunner
         $executed = $this->repository->getExecutedMigrations()[$identifier]
             ?? throw InvalidMigrationStateException::notExecuted($identifier);
 
-        return $this->runOne($migration, (int)$executed['batch'], dryRun: false, up: false);
+        return $this->runOne($migration, (int) $executed['batch'], dryRun: false, up: false);
     }
 
     /**
@@ -143,10 +142,10 @@ final class MigrationRunner
         $results = [];
 
         foreach ($rows as $row) {
-            $identifier = (string)$row['identifier'];
+            $identifier = (string) $row['identifier'];
             $migration = $available[$identifier] ?? throw MigrationNotFoundException::forIdentifier($identifier);
 
-            $result = $this->runOne($migration, (int)$row['batch'], dryRun: false, up: false);
+            $result = $this->runOne($migration, (int) $row['batch'], dryRun: false, up: false);
             $results[] = $result;
 
             if (!$result->success) {

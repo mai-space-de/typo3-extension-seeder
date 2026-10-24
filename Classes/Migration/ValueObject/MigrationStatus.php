@@ -20,6 +20,5 @@ final class MigrationStatus
         public readonly ?int $batch = null,
         public readonly ?bool $success = null,
         public readonly ?string $errorMessage = null,
-    ) {
-    }
+    ) {}
 }

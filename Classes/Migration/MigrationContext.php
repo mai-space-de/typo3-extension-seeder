@@ -29,8 +29,7 @@ final class MigrationContext
         private readonly ConnectionPool $connectionPool,
         private readonly MigrationLedger $ledger,
         private readonly string $migrationIdentifier,
-    ) {
-    }
+    ) {}
 
     public function getConnection(string $table): Connection
     {
@@ -83,10 +82,10 @@ final class MigrationContext
         $uid = null;
         if ($this->tableHasUidColumn($connection, $table)) {
             if (isset($row['uid'])) {
-                $uid = (int)$row['uid'];
+                $uid = (int) $row['uid'];
             } else {
                 try {
-                    $uid = (int)$connection->lastInsertId();
+                    $uid = (int) $connection->lastInsertId();
                 } catch (\Throwable $e) {
                     // Fallback: some drivers leave insert_id=0 after INSERT…SELECT
                     // quirks or when another statement on the same connection
@@ -219,7 +218,7 @@ final class MigrationContext
      */
     private function extractUid(array $row): ?int
     {
-        return isset($row['uid']) ? (int)$row['uid'] : null;
+        return isset($row['uid']) ? (int) $row['uid'] : null;
     }
 
     private function tableHasUidColumn(Connection $connection, string $table): bool

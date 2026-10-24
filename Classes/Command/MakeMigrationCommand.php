@@ -78,7 +78,7 @@ final class MakeMigrationCommand extends Command
             return Command::FAILURE;
         }
 
-        $className = $this->buildClassName((string)$input->getArgument('name'));
+        $className = $this->buildClassName((string) $input->getArgument('name'));
         $migrationsPath = $classesPath . 'Migrations/';
         $targetFile = $migrationsPath . $className . '.php';
 
@@ -91,7 +91,7 @@ final class MakeMigrationCommand extends Command
         GeneralUtility::mkdir_deep($migrationsPath);
         GeneralUtility::writeFile(
             $targetFile,
-            $this->buildContent($namespace, $className, (bool)$input->getOption('reversible')),
+            $this->buildContent($namespace, $className, (bool) $input->getOption('reversible')),
         );
 
         $io->success(sprintf('Created %s', $targetFile));

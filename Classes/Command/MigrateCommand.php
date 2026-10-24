@@ -42,8 +42,8 @@ final class MigrateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $dryRun = (bool)$input->getOption('dry-run');
-        $step = $input->getOption('step') !== null ? (int)$input->getOption('step') : null;
+        $dryRun = (bool) $input->getOption('dry-run');
+        $step = $input->getOption('step') !== null ? (int) $input->getOption('step') : null;
 
         if (!$dryRun && !$input->getOption('force') && Environment::getContext()->isProduction()) {
             $confirmed = $io->confirm(
@@ -79,7 +79,7 @@ final class MigrateCommand extends Command
             }
         }
 
-        $failed = array_filter($results, static fn ($result) => !$result->success);
+        $failed = array_filter($results, static fn($result) => !$result->success);
         if ($failed !== []) {
             return Command::FAILURE;
         }

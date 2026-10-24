@@ -36,7 +36,7 @@ final class MigrateResetCommand extends Command
         }
 
         $results = $this->runner->reset();
-        $failed = array_filter($results, static fn ($result) => !$result->success);
+        $failed = array_filter($results, static fn($result) => !$result->success);
 
         $io->success(sprintf('%d migration(s) rolled back.', count($results) - count($failed)));
 

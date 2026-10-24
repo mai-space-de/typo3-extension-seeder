@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Maispace\MaiSeeder\Migration;
 
+use Doctrine\DBAL\ParameterType;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
@@ -14,9 +15,7 @@ final class MigrationRepository
 {
     private const TABLE = 'tx_maiseeder_migration';
 
-    public function __construct(private readonly ConnectionPool $connectionPool)
-    {
-    }
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
 
     /**
      * @return array<string, array<string, mixed>> executed migration rows keyed by identifier
@@ -34,7 +33,7 @@ final class MigrationRepository
 
         $migrations = [];
         foreach ($rows as $row) {
-            $migrations[(string)$row['identifier']] = $row;
+            $migrations[(string) $row['identifier']] = $row;
         }
 
         return $migrations;
@@ -50,7 +49,7 @@ final class MigrationRepository
         if ($batch !== null) {
             $queryBuilder->where($queryBuilder->expr()->eq(
                 'batch',
-                $queryBuilder->createNamedParameter($batch, \PDO::PARAM_INT),
+                $queryBuilder->createNamedParameter($batch, ParameterType::INTEGER),
             ));
         } elseif ($step === null) {
             $latestBatch = $this->getLatestBatchNumber();
@@ -59,7 +58,7 @@ final class MigrationRepository
             }
             $queryBuilder->where($queryBuilder->expr()->eq(
                 'batch',
-                $queryBuilder->createNamedParameter($latestBatch, \PDO::PARAM_INT),
+                $queryBuilder->createNamedParameter($latestBatch, ParameterType::INTEGER),
             ));
         }
 
@@ -91,7 +90,7 @@ final class MigrationRepository
             'batch' => $batch,
             'success' => 1,
             'error_message' => null,
-            'execution_time_ms' => (int)round($executionTimeMs),
+            'execution_time_ms' => (int) round($executionTimeMs),
             'executed_at' => $this->now(),
         ]);
     }
@@ -111,7 +110,7 @@ final class MigrationRepository
             'batch' => $batch,
             'success' => 0,
             'error_message' => $errorMessage,
-            'execution_time_ms' => (int)round($executionTimeMs),
+            'execution_time_ms' => (int) round($executionTimeMs),
             'executed_at' => $this->now(),
         ]);
     }
@@ -132,7 +131,7 @@ final class MigrationRepository
             ->executeQuery()
             ->fetchOne();
 
-        return $max !== null ? (int)$max : null;
+        return $max !== null ? (int) $max : null;
     }
 
     private function queryBuilder(): QueryBuilder
@@ -145,6 +144,6 @@ final class MigrationRepository
 
     private function now(): int
     {
-        return (int)($GLOBALS['EXEC_TIME'] ?? time());
+        return (int) ($GLOBALS['EXEC_TIME'] ?? time());
     }
 }

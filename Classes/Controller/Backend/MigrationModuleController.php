@@ -56,7 +56,7 @@ final class MigrationModuleController extends AbstractBackendController
                 );
             } else {
                 $this->flashError(
-                    (string)$result->errorMessage,
+                    (string) $result->errorMessage,
                     $this->translate('flash.executeFailed.title') ?? 'Migration failed',
                 );
             }
@@ -81,7 +81,7 @@ final class MigrationModuleController extends AbstractBackendController
                 );
             } else {
                 $this->flashError(
-                    (string)$result->errorMessage,
+                    (string) $result->errorMessage,
                     $this->translate('flash.rollbackFailed.title') ?? 'Rollback failed',
                 );
             }

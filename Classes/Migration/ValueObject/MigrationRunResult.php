@@ -16,6 +16,5 @@ final class MigrationRunResult
         public readonly bool $success,
         public readonly float $executionTimeMs,
         public readonly ?string $errorMessage = null,
-    ) {
-    }
+    ) {}
 }

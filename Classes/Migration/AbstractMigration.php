@@ -30,7 +30,7 @@ abstract class AbstractMigration implements MigrationInterface
             );
         }
 
-        $snakeCaseName = strtolower((string)preg_replace('/(?<!^)[A-Z]/', '_$0', $matches['name']));
+        $snakeCaseName = strtolower((string) preg_replace('/(?<!^)[A-Z]/', '_$0', $matches['name']));
 
         return $matches['timestamp'] . '_' . $snakeCaseName;
     }
