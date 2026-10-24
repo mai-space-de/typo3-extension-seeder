@@ -10,7 +10,7 @@ return [
         'access' => 'admin',
         'workspaces' => 'online',
         'path' => '/module/system/mai-seeder',
-        'iconIdentifier' => 'mai-backend-module',
+        'iconIdentifier' => 'mai-seeder-module',
         'labels' => 'LLL:EXT:mai_seeder/Resources/Private/Language/locallang_mod.xlf',
         'extensionName' => 'MaiSeeder',
         'controllerActions' => [
