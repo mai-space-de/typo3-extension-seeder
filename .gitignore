@@ -2,3 +2,4 @@ vendor/
 var/
 .phpunit.cache/
 .php-cs-fixer.cache
+public/
