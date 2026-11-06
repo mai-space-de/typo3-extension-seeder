@@ -14,3 +14,21 @@ services:
 
   Maispace\MaiSeeder\Controller\Backend\MigrationModuleController:
     public: true
+
+  dashboard.widget.maiSeederManual:
+    class: 'ProudNerds\PnBackendManual\Widgets\ManualWidget'
+    arguments:
+      $options:
+        file: 'EXT:mai_seeder/Resources/Private/Manual/Manual.md'
+        numbered: true
+        contentsDepth: 2
+        printButton: true
+    tags:
+      - name: dashboard.widget
+        identifier: 'maiSeederManual'
+        groupNames: 'documentation'
+        title: 'Handbuch: Content-Migrationen'
+        description: 'Kurze Anleitung für versionierte Inhalts-Migrationen.'
+        iconIdentifier: 'content-book'
+        height: 'medium'
+        width: 'medium'
